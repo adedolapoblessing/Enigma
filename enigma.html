@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="css/style.css">
+    <link rel="javascript" href="js/index.js">
+    <style>
+        body {
+          font-family: sans-serif;
+        }
+        .container {
+          width: 400px;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+        }
+        h2 {
+          margin-bottom: 15px;
+        }
+        input[type="text"] {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+        }
+        button {
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+    </style>
+</head>
+<body style="background-image: url('./images/cotedazure.png'); background-size: cover;">
+    <section class="ftco-section">
+        <div style="background-color: white;" class="container">
+            <h2 class="text-center">Blessing's Creative Engima</h2>
+            <p>Two fathers and two sons go fishing. They only caught three fishes, but each person gets a whole fish. How is this possible?</p>
+    
+            <div id="hint-container">
+                <strong><i class="fa fa-lightbulb-o" aria-hidden="true" style="color: gold; font-size: 2em;"></i></strong>
+                <p>Think about dividing the fish. <br> 
+                    Think about what they brought along to the river. <br>
+                    Is it possible to get a 2 in 1 fish. <br>
+                    Think about family relationships.
+                </p>
+            </div>
+    
+            <p><strong>Tries Remaining: <span id="tries-left">3</span></strong></p>
+            
+            <input type="text" id="answer" placeholder="Enter your answer">
+            <button onclick="checkAnswer()">Submit</button>
+            
+            <p style="text-align: center; margin: 5px;" id="result"></p>
+            <p style="text-align: center; margin: 5px;" id="solution"></p>
+        </div>
+    </section>
+    <script>
+        let tries = 3;
+        let usersName=localStorage.getItem("userName");
+
+        function checkAnswer() {
+            const answerInput = document.getElementById("answer");
+            const answer = answerInput.value.toLowerCase();
+            const resultDiv = document.getElementById("result");
+            const triesLeft = document.getElementById("tries-left");
+            const solution = document.getElementById("solution");
+
+            while (tries > 0) {
+                console.log("I am in the loop");
+                if (answer.includes("grand") && answer.includes("father") && answer.includes("son")) {
+                    resultDiv.innerHTML = '<i class="fa fa-check-circle-o" aria-hidden="true" style="color: green; font-size: 2em;"></i> Correct!<br>Congratulations ' + usersName;
+                    answerInput.disabled = true;
+                    triesLeft.innerHTML = tries;
+                    break; // We Exit the loop because the user gets the correct answer
+                } else {
+                    resultDiv.innerHTML = "<i class='fa fa-times' aria-hidden='true' style='color: red; font-size: 2em;'></i> Incorrect. Try again.";
+                    tries--;
+                    triesLeft.innerHTML = tries;
+
+                    // We give the user another try, but if he or she has exhusted the 3 tries, we end the enigma game questionnaire
+                    answerInput.value = "";
+                    if (tries === 0) {
+                        resultDiv.innerHTML = "<i class='fa fa-times' aria-hidden='true' style='color: red; font-size: 2em;'></i> You've run out of tries.";
+                        answerInput.style.display = "none";
+                        document.getElementById("solution").innerHTML = "<strong>Answer:</strong> It was a Grandfather, his son (Father), and son.";
+                    }
+                    return;
+                }
+            }
+
+            if (tries === 0) {
+                resultDiv.innerHTML = "You've run out of tries.";
+            }
+        }
+    </script>
+</body>
+</html>
