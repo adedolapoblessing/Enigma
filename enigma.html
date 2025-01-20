@@ -47,7 +47,7 @@
             <p>Two fathers and two sons go fishing. They only caught three fishes, but each person gets a whole fish. How is this possible?</p>
     
             <div id="hint-container">
-                <button id="hint-toggle" onclick="toggleHint()">
+                <button id="hint-toggle" style="margin-bottom: 5px;" onclick="toggleHint()">
                     <strong><i id="bulb" class="fa fa-lightbulb-o" aria-hidden="true" style="color: gold; font-size: 2em;"></i> Hint</strong>
                 </button>
                 <div id="hint-content" style="display: none; margin-top: 10px;">
@@ -60,8 +60,8 @@
                 </div>
             </div>
     
-            <p><strong>Tries Remaining: <span id="tries-left">3</span></strong></p>
-            <p><strong>Time Remaining: <span id="timer">60 seconds</span></strong></p>
+            <p id="numberoftrialsleft"><strong>Tries Remaining: <span id="tries-left">3</span></strong></p>
+            <p id="timeremaining"><strong>Time Remaining: <span id="timer">60 seconds</span></strong></p>
             
             <input type="text" id="answer" placeholder="Enter your answer">
             <button onclick="checkAnswer()">Submit</button>
@@ -111,6 +111,8 @@
             const resultDiv = document.getElementById("result");
             const triesLeft = document.getElementById("tries-left");
             const solution = document.getElementById("solution");
+            const trials_left = document.getElementById("numberoftrialsleft");
+            const timeleft = document.getElementById("timeremaining");
 
             while (tries > 0) {
                 console.log("I am in the loop");
@@ -118,6 +120,9 @@
                     resultDiv.innerHTML = '<i class="fa fa-check-circle-o" aria-hidden="true" style="color: green; font-size: 2em;"></i> Correct!<br>Congratulations ' + usersName;
                     answerInput.disabled = true;
                     triesLeft.innerHTML = tries;
+                    trials_left.style.display='none';
+                    console.log(trials_left);
+                    timeleft.style.display='none';
                     break; // We Exit the loop because the user gets the correct answer
                 } else {
                     resultDiv.innerHTML = "<i class='fa fa-times' aria-hidden='true' style='color: red; font-size: 2em;'></i> Incorrect. Try again.";
