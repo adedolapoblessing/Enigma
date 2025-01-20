@@ -47,15 +47,21 @@
             <p>Two fathers and two sons go fishing. They only caught three fishes, but each person gets a whole fish. How is this possible?</p>
     
             <div id="hint-container">
-                <strong><i class="fa fa-lightbulb-o" aria-hidden="true" style="color: gold; font-size: 2em;"></i></strong>
-                <p>Think about dividing the fish. <br> 
-                    Think about what they brought along to the river. <br>
-                    Is it possible to get a 2 in 1 fish. <br>
-                    Think about family relationships.
-                </p>
+                <button id="hint-toggle" onclick="toggleHint()">
+                    <strong><i id="bulb" class="fa fa-lightbulb-o" aria-hidden="true" style="color: gold; font-size: 2em;"></i> Hint</strong>
+                </button>
+                <div id="hint-content" style="display: none; margin-top: 10px;">
+                    <ul style="margin-left: 20px;">
+                        <li>Think about dividing the fish.</li>
+                        <li>Think about what they brought along to the river.</li>
+                        <li>Is it possible to get a 2 in 1 fish?</li>
+                        <li>Think about family relationships.</li>
+                    </ul>
+                </div>
             </div>
     
             <p><strong>Tries Remaining: <span id="tries-left">3</span></strong></p>
+            <p><strong>Time Remaining: <span id="timer">60 seconds</span></strong></p>
             
             <input type="text" id="answer" placeholder="Enter your answer">
             <button onclick="checkAnswer()">Submit</button>
@@ -66,7 +72,38 @@
     </section>
     <script>
         let tries = 3;
+        let timeLeft = 60; // Time in seconds
+        startTimer();
         let usersName=localStorage.getItem("userName");
+
+        function toggleHint() {
+            const hintContent = document.getElementById('hint-content');
+            if (hintContent.style.display === 'none' || hintContent.style.display === '') {
+                hintContent.style.display = 'block';
+                const bulb=document.getElementById("bulb");
+                bulb.style.color="gray";
+            } else {
+                hintContent.style.display = 'none';
+                bulb.style.color="gold";
+            }
+        }
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            const timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft + ' seconds';
+
+                if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timerElement.textContent = 'Time Up!';
+                document.getElementById('answer').disabled = true;
+                checkAnswer(); // Check answer even if time's up
+                } else if (timeLeft <= 15){
+                    timerElement.style.color="red" // Set danger time color
+                }
+            }, 1000); // Update every second
+        }
 
         function checkAnswer() {
             const answerInput = document.getElementById("answer");

@@ -1,0 +1,64 @@
+<html>
+<head>
+  <title>Enigma with Timer</title>
+</head>
+<body>
+  <h1>Enigma Game</h1>
+  <p>Two fathers and two sons go fishing. They only caught three fishes, but each person gets a whole fish. How is this possible?</p>
+
+  <div id="hint-container">
+    <strong>Hint:</strong> Think about family relationships.
+  </div>
+
+  <p><strong>Tries Remaining: <span id="tries-left">3</span></strong></p>
+  <p><strong>Time Remaining: <span id="timer">60</span> seconds</strong></p>
+
+  <input type="text" id="answer" placeholder="Enter your answer">
+  <button onclick="startTimer(); checkAnswer()">Submit</button>
+
+  <p id="result"></p>
+  <p id="solution"></p>
+
+  <script>
+    let tries = 3;
+    let timeLeft = 60; // Time in seconds
+
+    function startTimer() {
+      const timerElement = document.getElementById('timer');
+      const timerInterval = setInterval(() => {
+        timeLeft--;
+        timerElement.textContent = timeLeft + ' seconds';
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          timerElement.textContent = 'Time Up!';
+          document.getElementById('answer').disabled = true;
+          checkAnswer(); // Check answer even if time's up
+        }
+      }, 1000); // Update every second
+    }
+
+    function checkAnswer() {
+      const answerInput = document.getElementById('answer');
+      const answer = answerInput.value.toLowerCase();
+      const resultDiv = document.getElementById('result');
+      const triesLeftElement = document.getElementById('tries-left');
+
+      if (answer.includes('grand') && answer.includes('father') && answer.includes('son')) {
+        resultDiv.textContent = 'Correct!';
+        answerInput.disabled = true;
+      } else {
+        tries--;
+        triesLeftElement.textContent = tries;
+        resultDiv.textContent = 'Incorrect. Try again.';
+
+        if (tries === 0) {
+          resultDiv.textContent = 'You\'ve run out of tries.';
+          answerInput.disabled = true;
+          document.getElementById('solution').textContent = 'Solution: Grandfather, Father, Son';
+        }
+      }
+    }
+  </script>
+</body>
+</html>
